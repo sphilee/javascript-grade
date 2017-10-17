@@ -1,4 +1,6 @@
-let getGrade = (grade) => {
+"use strict";
+
+function getGrade(grade) {
     switch (grade) {
         case "A+":
             return 4.5;
@@ -31,27 +33,57 @@ let getGrade = (grade) => {
             break;
     }
 };
-const data = [{
-        'name': '데이터베이스',
-        'grade': 'A',
-        'credit': 3
-    },
-    {
-        'name': '교양영어',
-        'grade': 'B+',
-        'credit': 1
-    },
-    {
-        'name': '철학',
-        'grade': 'A',
-        'credit': 2
-    }
-];
-let results = data.reduce((a, b) => ({
-    credit: a.credit + b.credit
-}));
-let totalRating = 0;
-data.forEach((out) => {
-    totalRating += getGrade(out.grade) * (out.credit / results.credit);
+var data = [{
+    'name': '데이터베이스',
+    'grade': 'A',
+    'credit': 3,
+    'bMajor': true
+}, {
+    'name': '교양영어',
+    'grade': 'B+',
+    'credit': 1,
+    'bMajor': false
+}, {
+    'name': '철학',
+    'grade': 'A',
+    'credit': 2,
+    'bMajor': false
+}];
+
+function printScore(data) {
+    var total = data.reduce(function (a, b) {
+        return {
+            credit: a.credit + b.credit
+        };
+    });
+    var bMajor = data.filter(function (out) {
+        return out.bMajor;
+    }).reduce(function (a, b) {
+        return {
+            credit: a.credit + b.credit
+        };
+    });
+    var totalRating = 0;
+    var majorRating = 0;
+    data.forEach(function (out) {
+        totalRating += getGrade(out.grade) * (out.credit / total.credit);
+        majorRating += out.bMajor ? getGrade(out.grade) * (out.credit / bMajor.credit) : 0;
+    });
+    console.log("총 평점 : " + totalRating.toFixed(2) + ", 전공평점 : " + majorRating.toFixed(2) + ", 이수학점 : " + total.credit + ", 전공이수학점 : " + bMajor.credit);
+    printScore4(totalRating);
+}
+function printScore4(totalRating) {
+    console.log("4.0학점으로 변환하는 경우 총평점은 " + (totalRating * (4.0 / 4.5)).toFixed(2) + "은 입니다.");
+}
+function addLecture(lecture) {
+    data.push(lecture);
+    printScore(data);
+}
+
+printScore(data);
+addLecture({
+    'name': '알고리즘',
+    'grade': 'B',
+    'credit': 3,
+    'bMajor': true
 });
-console.log("총 평점 " + totalRating.toFixed(2) + ", 이수학점 " + results.credit);
