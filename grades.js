@@ -1,5 +1,42 @@
 "use strict";
 
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+let data = [{
+    'name': '데이터베이스',
+    'grade': 'A',
+    'credit': 3,
+    'bMajor': true
+}, {
+    'name': '교양영어',
+    'grade': 'B+',
+    'credit': 1,
+    'bMajor': false
+}, {
+    'name': '철학',
+    'grade': 'A',
+    'credit': 2,
+    'bMajor': false
+}];
+
+function setGrade() {
+    rl.question('과목을 JSON형태로 입력하세요<종료는 end입력> : ', (answer) => {
+        if (answer === "end") {
+            setTimeout(function () {
+                printScore(data);
+            }, 2000);
+            rl.close(answer);
+        } else {
+            data.push(JSON.parse(answer));
+            setGrade();
+        }
+    });
+};
+
 function getGrade(grade) {
     switch (grade) {
         case "A+":
@@ -33,22 +70,6 @@ function getGrade(grade) {
             break;
     }
 };
-var data = [{
-    'name': '데이터베이스',
-    'grade': 'A',
-    'credit': 3,
-    'bMajor': true
-}, {
-    'name': '교양영어',
-    'grade': 'B+',
-    'credit': 1,
-    'bMajor': false
-}, {
-    'name': '철학',
-    'grade': 'A',
-    'credit': 2,
-    'bMajor': false
-}];
 
 function printScore(data) {
     var total = data.reduce(function (a, b) {
@@ -70,20 +91,8 @@ function printScore(data) {
         majorRating += out.bMajor ? getGrade(out.grade) * (out.credit / bMajor.credit) : 0;
     });
     console.log("총 평점 : " + totalRating.toFixed(2) + ", 전공평점 : " + majorRating.toFixed(2) + ", 이수학점 : " + total.credit + ", 전공이수학점 : " + bMajor.credit);
-    printScore4(totalRating);
-}
-function printScore4(totalRating) {
     console.log("4.0학점으로 변환하는 경우 총평점은 " + (totalRating * (4.0 / 4.5)).toFixed(2) + "은 입니다.");
-}
-function addLecture(lecture) {
-    data.push(lecture);
-    printScore(data);
-}
+};
 
-printScore(data);
-addLecture({
-    'name': '알고리즘',
-    'grade': 'B',
-    'credit': 3,
-    'bMajor': true
-});
+
+setGrade();
