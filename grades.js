@@ -40,23 +40,23 @@ var data = [{
 function printScore(data) {
     var totalRating = 0;
     var majorRating = 0;
-    var total = data.reduce(function (a, b) {
-        return {
-            credit: a.credit + b.credit
-        };
+    var totalCredit = data.map(function (item) {
+        return item.credit;
+    }).reduce(function (prev, curr) {
+        return prev + curr;
     });
     var bMajor = data.filter(function (out) {
         return out.bMajor;
-    }).reduce(function (a, b) {
+    }).reduce(function (prev, curr) {
         return {
-            credit: a.credit + b.credit
+            credit: prev.credit + curr.credit
         };
     });
     data.forEach(function (out) {
-        totalRating += getGrade(out.grade) * (out.credit / total.credit);
+        totalRating += getGrade(out.grade) * (out.credit / totalCredit);
         majorRating += out.bMajor ? getGrade(out.grade) * (out.credit / bMajor.credit) : 0;
     });
-    console.log("총 평점 : " + totalRating.toFixed(2) + ", 전공평점 : " + majorRating.toFixed(2) + ", 이수학점 : " + total.credit + ", 전공이수학점 : " + bMajor.credit);
+    console.log("총 평점 : " + totalRating.toFixed(2) + ", 전공평점 : " + majorRating.toFixed(2) + ", 이수학점 : " + totalCredit + ", 전공이수학점 : " + bMajor.credit);
     console.log("4.0학점으로 변환하는 경우 총평점은 " + (totalRating * (4 / 4.5)).toFixed(2) + "은 입니다.");
 };
 
