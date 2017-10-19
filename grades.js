@@ -45,14 +45,8 @@ function printScore(data) {
 };
 
 function getGrade(grade) {
-    var gradeMap = {
-        A: 4,
-        B: 3,
-        C: 2,
-        D: 1,
-        F: 0
-    };
-    var gradeScore = grade.length > 1 ? gradeMap[grade[0]] + parseFloat(grade[1] + "0.5") : gradeMap[grade];
+    var gradeList = ['F', 'D', 'C', 'B', 'A'];
+    var gradeScore = grade.length > 1 ? gradeList.indexOf(grade[0]) + parseFloat(grade[1] + "0.5") : gradeList.indexOf(grade);
 
     return gradeScore;
 }
