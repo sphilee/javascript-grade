@@ -1,6 +1,7 @@
 "use strict";
 
 var readline = require('readline');
+var data = require('./data.js');
 var rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -19,23 +20,6 @@ function setGrade() {
         }
     });
 };
-
-var data = [{
-    'name': '데이터베이스',
-    'grade': 'A',
-    'credit': 3,
-    'bMajor': true
-}, {
-    'name': '교양영어',
-    'grade': 'B+',
-    'credit': 1,
-    'bMajor': false
-}, {
-    'name': '철학',
-    'grade': 'A',
-    'credit': 2,
-    'bMajor': false
-}];
 
 function printScore(data) {
     var totalRating = 0;
